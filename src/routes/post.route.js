@@ -1,25 +1,11 @@
-const express = require('express');
-const jwt = require('jsonwebtoken');
+const express = require("express");
+const authMiddleware = require("../middlewares/auth.middleware");
+const multer = require('multer');
+
+const upload = multer({ storage: multer.memoryStorage() });
+
 
 const router = express.Router();
-
-router.post('/', (req, res) => {
-    const token = req.cookies.token;
-
-    if (!token) {
-        return res.status(401).json({
-            message: "unauthenticated, please login first.",
-        })
-    }
-
-    try {
-        const decoded = jwt.verify(token, process.JWT_SECRET)
-        
-    } catch (error) {
-        return res.status(401).json({
-            message: "invalid token, please login first.",
-        })
-    }
-})
+router.post("/", authMiddleware, upload.single('image'), createPostController);
 
 module.exports = router;
