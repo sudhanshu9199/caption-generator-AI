@@ -1,7 +1,9 @@
+// auth.middleware.js
 const jwt = require("jsonwebtoken");
 const userModel = require("../models/user.model");
 
 async function authMiddleware (req, res, next) {
+    console.log('Auth middleware — cookies:', req.cookies, 'headers.Authorization:', req.headers.authorization);
   const token = req.cookies.token;
 
   if (!token) {
@@ -11,7 +13,7 @@ async function authMiddleware (req, res, next) {
   }
 
   try {
-    const decoded = jwt.verify(token, process.JWT_SECRET);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
     const user = await userModel.findOne({
       _id: decoded.id,
