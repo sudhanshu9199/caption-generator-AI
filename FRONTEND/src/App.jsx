@@ -1,9 +1,9 @@
-import Dashboard from "./Pages/Dashboard/Dashboard.jsx";
+import MainRouter from "./router/mainRouter"
 
 const App = () => {
   return (
     <>
-    <Dashboard />
+    <MainRouter />
     </>
   )
 }

@@ -205,4 +205,7 @@
   .dashboardContainer .captionContainer .captionArea {
     padding: 0.8rem;
   }
+  .dashboardContainer .captionContainer .captionArea .captionText {
+    font-size: 1.1rem;
+  }
 }/*# sourceMappingURL=Dashboard.module.css.map */
