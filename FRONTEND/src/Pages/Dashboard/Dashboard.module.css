@@ -53,6 +53,11 @@
   flex-direction: column;
   align-items: center;
   padding-top: 1rem;
+  cursor: pointer;
+  overflow: hidden;
+}
+.dashboardContainer .uploadContainer .uploadArea input {
+  display: none;
 }
 .dashboardContainer .uploadContainer .uploadArea .headerMobileText {
   font-size: 1.1rem;

@@ -64,6 +64,12 @@
       flex-direction: column;
       align-items: center;
       padding-top: 1rem;
+      cursor: pointer;
+      overflow: hidden;
+
+      input {
+        display: none;
+      }
 
       .headerMobileText {
         font-size: 1.1rem;
@@ -72,7 +78,6 @@
 
       .demoImage {
         width: 8rem;
-        // margin-top: -5%;
         img {
           width: 100%;
           rotate: 280deg;
