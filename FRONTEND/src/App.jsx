@@ -1,7 +1,15 @@
+import { useDispatch } from "react-redux";
 import MainRouter from "./router/mainRouter";
 import { ToastContainer } from 'react-toastify';
+import { useEffect } from "react";
+import { checkAuth } from "./Redux/Slice/authSlice";
 
 const App = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(checkAuth());
+  }, [dispatch]);
   return (
     <>
     <MainRouter />

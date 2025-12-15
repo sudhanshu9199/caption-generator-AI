@@ -4,11 +4,6 @@ const { registerController, loginController, verifyUserController, logoutControl
 const authMiddleware = require("../middlewares/auth.middleware.js");
 const router = express.Router();
 
-/*
-POST /register
-POST /login
-GET /user [protected] */
-
 router.post('/register', registerController);
 
 router.post('/login', loginController);

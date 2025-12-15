@@ -69,15 +69,15 @@ async function loginController(req, res) {
 
 async function verifyUserController(req, res) {
   return res.status(200).json({
-    message: 'User is authenticated',
+    message: "User is authenticated",
     user: req.user,
   });
 }
 
 async function logoutController(req, res) {
-  res.clearCookie('token');
+  res.clearCookie("token");
   return res.status(200).json({
-    message: 'Logged out successfully'
+    message: "Logged out successfully",
   });
 }
 
@@ -85,5 +85,5 @@ module.exports = {
   registerController,
   loginController,
   verifyUserController,
-  logoutController
+  logoutController,
 };
