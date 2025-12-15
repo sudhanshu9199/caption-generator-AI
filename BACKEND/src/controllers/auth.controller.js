@@ -68,10 +68,30 @@ async function loginController(req, res) {
 }
 
 async function verifyUserController(req, res) {
-  return res.status(200).json({
-    message: "User is authenticated",
-    user: req.user,
-  });
+  try {
+    const token = req.cookies.token;
+
+    // If no token, return null user but status 200 (No error)
+    if (!token) {
+      return res.status(200).json({ user: null });
+    }
+
+    // Verify token
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const user = await userModel.findOne({ _id: decoded.id });
+
+    if (!user) {
+      return res.status(200).json({ user: null });
+    }
+
+    // If valid, return user
+    return res.status(200).json({
+      message: "User is authenticated",
+      user,
+    });
+  } catch (err) {
+    return res.status(200).json({ user: null });
+  }
 }
 
 async function logoutController(req, res) {
