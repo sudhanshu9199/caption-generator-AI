@@ -29,7 +29,7 @@ async function registerController(req, res) {
   res.cookie("token", token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production", 
-    sameSite: 'strict',
+    sameSite: process.env.NODE_ENV === "production" ? 'None' : 'lax',
     maxAge: 2 * 24 * 60 * 60 * 1000 // 2 days in milliseconds
   });
 
@@ -65,7 +65,7 @@ async function loginController(req, res) {
   res.cookie("token", token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
-    sameSite: 'strict',
+    sameSite: process.env.NODE_ENV === "production" ? 'None' : 'lax',
     maxAge: 2 * 24 * 60 * 60 * 1000 // 2 days in milliseconds
   });
 
