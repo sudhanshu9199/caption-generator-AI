@@ -3,7 +3,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 export const checkAuth = createAsyncThunk(
   "auth/checkAuth", async (_, { rejectWithValue }) => {
     try {
-      const response = await fetch("http://localhost:3000/api/auth/verify", {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/auth/verify`, {
         credentials: "include",
       });
       const data = await response.json();
@@ -19,7 +19,7 @@ export const loginUser = createAsyncThunk(
   "auth/loginUser",
   async (credentials, { rejectWithValue }) => {
     try {
-      const response = await fetch("http://localhost:3000/api/auth/login", {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(credentials),
@@ -38,7 +38,7 @@ export const logoutUser = createAsyncThunk(
   "auth/logoutUser",
   async (_, { rejectWithValue }) => {
     try {
-      await fetch("http://localhost:3000/api/auth/logout", {
+      await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/auth/logout`, {
         method: "POST",
         credentials: "include",
       });

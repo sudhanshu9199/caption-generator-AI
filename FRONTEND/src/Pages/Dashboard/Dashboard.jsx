@@ -73,7 +73,7 @@ const Dashboard = () => {
     formData.append("image", file);
 
     try {
-      const response = await fetch("http://localhost:3000/api/posts", {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/posts`, {
         method: "POST",
         body: formData,
         credentials: "include",
