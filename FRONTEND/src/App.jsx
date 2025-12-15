@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import MainRouter from "./router/mainRouter";
+import MainRouter from "./router/MainRouter";
 import { ToastContainer } from 'react-toastify';
 import { useEffect } from "react";
 import { checkAuth } from "./Redux/Slice/authSlice";
