@@ -15,6 +15,25 @@ const Dashboard = () => {
 
   const fileInputRef = useRef(null);
 
+  const handleSpeak = () => {
+    if (!caption) return toast.error("Generate a caption first! 🗣️");
+    window.speechSynthesis.cancel();
+
+    const utterance = new SpeechSynthesisUtterance(caption);
+
+    utterance.rate = 0.9;
+    utterance.pitch = 1;
+
+    const voices = window.speechSynthesis.getVoices();
+    const targetVoice = voices.find(
+      (v) => v.lang === "h-IN" || v.lang === "en-IN" || v.name.includes("India")
+    );
+
+    if (targetVoice) utterance.voice = targetVoice;
+
+    window.speechSynthesis.speak(utterance);
+  };
+
   const handleFileSelect = (e) => {
     const selectedFile = e.target.files[0];
 
@@ -158,7 +177,7 @@ const Dashboard = () => {
       <div className={style.captionContainer}>
         <div className={style.header}>
           <p className={style.left}>Generated Caption</p>
-          <Volume2 className={style.icon} />
+          <Volume2 className={style.icon} onClick={handleSpeak} />
         </div>
         <div className={style.captionArea}>
           <p className={style.captionText}>

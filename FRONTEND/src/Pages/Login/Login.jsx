@@ -1,7 +1,7 @@
 import style from "./Login.module.scss";
 import logoImg from "../../assets/logo.png";
 import { User, LockKeyhole } from "lucide-react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../../Redux/Slice/authSlice";
 import { toast } from "react-toastify";
@@ -11,6 +11,7 @@ const Login = () => {
   const [username, setusername] = useState("");
   const [password, setpassword] = useState("");
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -23,6 +24,10 @@ const Login = () => {
 
     if (loginUser.fulfilled.match(result)) {
       toast.success("Welcome back! 👏");
+
+      setTimeout(() => {
+        navigate('/');
+      }, 1000);
     } else {
       toast.error(result.payload || "Login failed");
     }
