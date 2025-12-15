@@ -1,14 +1,17 @@
 import style from "./Dashboard.module.scss";
 import logoImg from "../../assets/logo.png";
 import overlay_Img from "../../assets/overlapping_Img.png";
-import { Volume2, Copy, ImageUp, Loader2 } from "lucide-react";
+import { Volume2, Copy, ImageUp, Check } from "lucide-react";
 import { useRef, useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
 
 const Dashboard = () => {
   const [file, setfile] = useState(null);
   const [previewUrl, setpreviewUrl] = useState(null);
   const [caption, setcaption] = useState("");
   const [loading, setloading] = useState(false);
+
+  const [isCopied, setisCopied] = useState(false);
 
   const fileInputRef = useRef(null);
 
@@ -19,6 +22,7 @@ const Dashboard = () => {
       setfile(selectedFile);
       setpreviewUrl(URL.createObjectURL(selectedFile));
       setcaption("");
+      setisCopied(false);
     }
   };
 
@@ -33,6 +37,7 @@ const Dashboard = () => {
       setfile(droppedFile);
       setpreviewUrl(URL.createObjectURL(droppedFile));
       setcaption("");
+      setisCopied(false);
     }
   };
 
@@ -44,6 +49,7 @@ const Dashboard = () => {
     if (!file) return;
 
     setloading(true);
+    setisCopied(false);
     const formData = new FormData();
     formData.append("image", file);
 
@@ -51,7 +57,7 @@ const Dashboard = () => {
       const response = await fetch("http://localhost:3000/api/posts", {
         method: "POST",
         body: formData,
-        credentials: 'include',
+        credentials: "include",
       });
 
       const data = await response.json();
@@ -72,11 +78,28 @@ const Dashboard = () => {
   const copyToClipboard = () => {
     if (caption) {
       navigator.clipboard.writeText(caption);
-      alert("Caption copied!");
-    }
+      toast.success("Caption copied successfully!", {
+        style: {
+          border: "1px solid #713200",
+          padding: "16px",
+          color: "#713200",
+        },
+        iconTheme: {
+          primary: "#713200",
+          secondary: "#FFFAEE",
+        },
+      });
+
+      setisCopied(true);
+
+      setTimeout(() => {
+        setisCopied(false);
+      }, 3000);
+    } else toast.error("Generate a caption first!");
   };
   return (
     <div className={style.dashboardContainer}>
+      <Toaster position="top-center" reverseOrder={false} />
       <div className={style.navbar}>
         <div className={style.logo}>
           <img src={logoImg} alt="logo Img" />
@@ -139,13 +162,23 @@ const Dashboard = () => {
         </div>
         <div className={style.captionArea}>
           <p className={style.captionText}>
-            {caption || 'Upload an image to see the magic here...'}
+            {caption || "Upload an image to see the magic here..."}
           </p>
         </div>
         <div className={style.actionsBtn}>
           <div className={style.copyBtn} onClick={copyToClipboard}>
-            <Copy className={style.icon} />
-            <p>Copy Caption</p>
+            {isCopied ? (
+              <>
+                <Check className={style.icon} color="#16a34a" />{" "}
+                {/* Green tick */}
+                <p style={{ color: "#16a34a", fontWeight: "bold" }}>Copied!</p>
+              </>
+            ) : (
+              <>
+                <Copy className={style.icon} />
+                <p>Copy Caption</p>
+              </>
+            )}
           </div>
           <div className="shareBtn"></div>
         </div>
