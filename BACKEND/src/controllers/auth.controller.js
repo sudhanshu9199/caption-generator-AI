@@ -21,13 +21,17 @@ async function registerController(req, res) {
   });
 
   const token = jwt.sign(
-    {
-      id: user._id,
-    },
-    process.env.JWT_SECRET
+      {id: user._id},
+      process.env.JWT_SECRET,
+      { expiresIn: '2d'}
   );
 
-  res.cookie("token", token);
+  res.cookie("token", token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production", 
+    sameSite: 'strict',
+    maxAge: 2 * 24 * 60 * 60 * 1000 // 2 days in milliseconds
+  });
 
   res.status(201).json({
     message: "user created successfully!",
@@ -55,8 +59,15 @@ async function loginController(req, res) {
     });
   }
 
-  const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
-  res.cookie("token", token);
+  const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+    expiresIn: '2d',
+  });
+  res.cookie("token", token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: 'strict',
+    maxAge: 2 * 24 * 60 * 60 * 1000 // 2 days in milliseconds
+  });
 
   res.status(200).json({
     message: "login successful",
