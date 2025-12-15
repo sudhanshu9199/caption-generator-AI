@@ -51,6 +51,7 @@ const Dashboard = () => {
       const response = await fetch("http://localhost:3000/api/posts", {
         method: "POST",
         body: formData,
+        credentials: 'include',
       });
 
       const data = await response.json();
